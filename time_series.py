@@ -118,6 +118,7 @@ class TimeSeries:
         txt = ['(intercept)', 't', 'x1', 'x2', 'x3', 'x4', 'x5', 'x6', 'x7', 'x8', 'x9', 'x10', 'x11']
         cfs = [clf.intercept_] + list(clf.coef_)
         summary = zip(txt, cfs)
+        summary = [item for item in summary]
 
         _y = [(np.dot(xRow, clf.coef_) + clf.intercept_) for xRow in dataMatrix]
         absErr = np.mean([abs((y[i] - _y[i]) / y[i]) * 100 for i in range(self.count)])
