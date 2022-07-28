@@ -102,4 +102,46 @@ class TimeSeries:
         }
 
     def dvModel(self):
-        pass
+        y = self.data.copy()
+
+        # raw data matrix
+        dataMatrix = np.zeros((self.count, 12), dtype=float)
+        for i in range(self.count):
+            dataMatrix[i, 0] = i + 1
+        for i in range(self.yearsCount):
+            for j in range(11):
+                dataMatrix[12 * i + j][j + 1] = 1
+
+        # library solution for comparison
+        clf = linear_model.LinearRegression()
+        clf.fit(dataMatrix, y)
+        txt = ['(intercept)', 't', 'x1', 'x2', 'x3', 'x4', 'x5', 'x6', 'x7', 'x8', 'x9', 'x10', 'x11']
+        cfs = [clf.intercept_] + list(clf.coef_)
+        summary = zip(txt, cfs)
+
+        _y = [(np.dot(xRow, clf.coef_) + clf.intercept_) for xRow in dataMatrix]
+        absErr = np.mean([abs((y[i] - _y[i]) / y[i]) * 100 for i in range(self.count)])
+        sigma = math.sqrt(np.mean([((y[i] - _y[i]) * 100 / y[i]) ** 2 for i in range(self.count)]))
+        rSqr = (1 - sum([(y[i] - _y[i]) ** 2 for i in range(self.count)]) / sum([(y[i] - self.mean) ** 2 for i in range(self.count)])) * 100
+        residuals = [(y[i] - _y[i]) for i in range(self.count)]
+        dw = (sum([(residuals[i] - residuals[i - 1]) ** 2 for i in range(1, self.count)]) + residuals[0] ** 2) / sum([r ** 2 for r in residuals])
+
+        newN = self.count + 12 * (self.predictCount // 12 + 1)
+        M = math.ceil(newN / 12)
+        dataMatrix = np.zeros((newN, 12), dtype=float)
+        for i in range(newN):
+            dataMatrix[i, 0] = i + 1
+        for i in range(M):
+            for j in range(11):
+                dataMatrix[12 * i + j][j + 1] = 1
+
+        predict = [(np.dot(dataMatrix[i], clf.coef_) + clf.intercept_) for i in range(self.count, self.count + self.predictCount)]
+
+        return {
+            'sklearn': summary,
+            'MAPE': absErr,
+            'MSE': sigma,
+            'R-square': rSqr,
+            'DW': dw,
+            'predict': predict
+        }
