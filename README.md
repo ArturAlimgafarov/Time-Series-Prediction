@@ -1,7 +1,7 @@
 # Time Series Prediction
 ___
 ## Description
-This work was performed at the 6th semester of study at the _USATU_ (specialty of _Mathematical software and administration of information systems_) on the subject of _Statistical modeling_.
+This educational project was performed at the 6th semester of study at the _USATU_ (specialty of _Mathematical software and administration of information systems_) on the subject of _Statistical modeling_.
 
 ## Installation
 Each model is written in separate files, but there is also one class-file with all models for testing through the "main.py".
