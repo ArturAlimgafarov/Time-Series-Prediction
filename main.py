@@ -8,11 +8,16 @@ def main():
 
     timeSeries = ts.TimeSeries(data, predictionCount)
 
-    am = timeSeries.addModel()
-    mm = timeSeries.multModel()
-    dv = timeSeries.dvModel()
+    am = data[-1] + timeSeries.addModel()['predict']
+    mm = data[-1] + timeSeries.multModel()['predict']
+    dv = data[-1] + timeSeries.dvModel()['predict']
 
-    print(f'{am}\n{mm}\n{dv}')
+    n = len(data)
+    dataTime = list(range(1, n + 1))
+    predictTime = list(range(n, n + 1 + predictionCount))
+
+    print(dataTime)
+    print(predictTime)
 
 if __name__ == '__main__':
     main()

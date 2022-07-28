@@ -1,18 +1,9 @@
 import numpy as np
 import math
-import matplotlib.pyplot as plt
-import random
 
 # загрузка исходных данных
 data = np.loadtxt('dataset.txt')
 predCount = int(input('Введите количество прогнозов: '))
-
-maxVal, minVal = max(data[:, 1]), min(data[:, 1])
-data2 = [v for v in data[:, 0]]
-plt.plot(data[:, 0], data[:, 1])
-plt.plot(data[:, 0], data2)
-plt.show()
-exit(0)
 
 print('\nШАГ 1.')
 t = data[:, 0]
