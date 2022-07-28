@@ -1,9 +1,14 @@
 import numpy as np
 import math
+import matplotlib.pyplot as plt
 
 # загрузка исходных данных
 data = np.loadtxt('dataset.txt')
 predCount = int(input('Введите количество прогнозов: '))
+
+plt.plot(data[:, 0], data[:, 1])
+plt.show()
+exit(0)
 
 print('\nШАГ 1.')
 t = data[:, 0]
