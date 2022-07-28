@@ -63,4 +63,5 @@ predt = [(N + (N % 12) + i + 1) for i in range(predCount)]
 predS = [S[i] for i in range(predCount)]
 predT = [(a + b * i) for i in predt]
 predST = np.array(predS) + np.array(predT)
+predST = [round(item, 4) for item in predST]
 print('Спрогнозированные значения на ' + str(predCount) + ' месяца: ', predST)

@@ -14,7 +14,7 @@ N = len(Y) # количество наблюдений
 M = math.ceil(N / 12) # количество лет
 
 # матрица исходных данных
-dataMatrix = np.zeros((N, 12), dtype = float)
+dataMatrix = np.zeros((N, 12), dtype=float)
 for i in range(N):
     dataMatrix[i, 0] = i + 1
 for i in range(M):
@@ -46,11 +46,12 @@ print('Коэффициент Дарбина-Уотсона: ', dw)
 
 newN = N + 12 * (predCount // 12 + 1)
 M = math.ceil(newN / 12)
-dataMatrix = np.zeros((newN, 12), dtype = float)
+dataMatrix = np.zeros((newN, 12), dtype=float)
 for i in range(newN):
     dataMatrix[i, 0] = i + 1
 for i in range(M):
     for j in range(11):
         dataMatrix[12 * i + j][j + 1] = 1
 predY = [(np.dot(dataMatrix[i], clf.coef_) + clf.intercept_) for i in range(N, N + predCount)]
+predY = [round(item, 4) for item in predY]
 print('Спрогнозированные значения на ' + str(predCount) + ' месяца: ', predY)
